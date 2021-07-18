@@ -1,0 +1,16 @@
+unit model.consts;
+
+interface
+
+type
+  TTipoProcuraArquivo = (tpFDB, tpOutros);
+
+const
+   DADOSATUAL = 'C:\CHSISTEMAS\CHERP\trunk\DADOS\DADOS.FDB';
+   DADOSRENOMEADO = 'C:\CHSISTEMAS\CHERP\trunk\DADOS\DADOSRENOMEADO.FDB';
+   DADOSTESTE = 'C:\CHSISTEMAS\CHERP\trunk\DADOS\DADOSTESTE.FDB';
+   DADOSANTERIOR = 'C:\CHSISTEMAS\CHERP\trunk\DADOS\DADOSANTERIOR.FDB';
+   DIRETORIO  = 'C:\CHSISTEMAS\CHERP\trunk\DADOS';
+implementation
+
+end.
