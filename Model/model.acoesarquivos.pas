@@ -102,7 +102,7 @@ begin
       tpFDB: AExtensaoArquivo := '*.FDB';
       tpOutros: AExtensaoArquivo := '*';
    end;
-   for ADadosNome in TDirectory.GetFiles(DIRETORIO, AExtensaoArquivo, TSearchOption.soAllDirectories) do begin
+   for ADadosNome in TDirectory.GetFiles(DIRETORIO, AExtensaoArquivo, TSearchOption.soTopDirectoryOnly) do begin
       if ADadosNome = DADOSTESTE then
          continue;
       case GetTipoArquivo.ExtensaoArquivo of
