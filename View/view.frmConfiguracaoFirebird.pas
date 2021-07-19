@@ -18,10 +18,13 @@ type
     procedure btnConfirmarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
+    FUsuarioAnterior: String;
+    FSenhaAnterior: String;
     FConfigConexao: iConfigConexao;
     { Private declarations }
   public
     property ConfigConexao: iConfigConexao read FConfigConexao write FConfigConexao;
+    function ConfigsAlteradas: boolean;
     { Public declarations }
   end;
 
@@ -47,10 +50,17 @@ begin
   Self.Close;
 end;
 
+function TfrmConfig.ConfigsAlteradas: boolean;
+begin
+   Result := (FUsuarioAnterior <> edtUsuario.Text) or (FSenhaAnterior <> edtSenha.Text);
+end;
+
 procedure TfrmConfig.FormShow(Sender: TObject);
 begin
   edtUsuario.Text := ConfigConexao.getUsuario;
   edtSenha.Text := ConfigConexao.getSenha;
+  FUsuarioAnterior := edtUsuario.Text;
+  FSenhaAnterior := edtSenha.Text;
 end;
 
 end.

@@ -62,6 +62,7 @@ type
     procedure GridOutros(const _ANecessarioMapearDiretorio: boolean);
     procedure ConfigInicial;
     procedure ControlarDisponiblidadeComponentes;
+    procedure EnableDisableBotoes;
     { Private declarations }
   public
     { Public declarations }
@@ -92,7 +93,12 @@ begin
   try
     AformConfig.ConfigConexao := FConfigConexao;
     AformConfig.ShowModal;
-    ControlarDisponiblidadeComponentes;   
+    ControlarDisponiblidadeComponentes;
+    if (not FConfigConexao.getUsuario.Trim.IsEmpty) and (not FConfigConexao.getSenha.Trim.IsEmpty) then
+      if AformConfig.ConfigsAlteradas then
+         MontarGrid(true)
+      else
+         EnableDisableBotoes;
   finally
     AformConfig.Free;
   end;
@@ -374,13 +380,7 @@ begin
         GridOutros((_ANecessarioMapearDiretorio) or (FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty));
       end;
    end;
-   btnUsarDadosTeste.Enabled := TTipoArquivo(rgArquivos.ItemIndex) = tpFDB;
-   btnVoltarDadosAnterior.Enabled := TTipoArquivo(rgArquivos.ItemIndex) = tpFDB;
-   btnDescompacatar.Enabled := (TTipoArquivo(rgArquivos.ItemIndex) = tpOutros) and (not FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty);
-   btnZipar.Enabled := not FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty;
-   btnExcluir.Enabled := not FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty;
-   btnGuardarDados.Enabled :=  not FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty;
-   DBGrid1.DataSource.DataSet := FInterfaceArquivo.GetTipoArquivo.getCDS;
+  EnableDisableBotoes;
 end;
 
 procedure TForm1.rgArquivosClick(Sender: TObject);
@@ -448,7 +448,17 @@ begin
     if Form1.Components[i] is TRadioGroup then
       TRadioGroup(Form1.Components[i]).Enabled := not (FConfigConexao.getUsuario + FConfigConexao.getSenha).Trim.IsEmpty;;
   end;
-    
+end;
+
+procedure TForm1.EnableDisableBotoes;
+begin
+  btnUsarDadosTeste.Enabled := TTipoArquivo(rgArquivos.ItemIndex) = tpFDB;
+  btnVoltarDadosAnterior.Enabled := TTipoArquivo(rgArquivos.ItemIndex) = tpFDB;
+  btnDescompacatar.Enabled := (TTipoArquivo(rgArquivos.ItemIndex) = tpOutros) and (not FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty);
+  btnZipar.Enabled := not FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty;
+  btnExcluir.Enabled := not FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty;
+  btnGuardarDados.Enabled := not FInterfaceArquivo.GetTipoArquivo.getCDS.IsEmpty;
+  DBGrid1.DataSource.DataSet := FInterfaceArquivo.GetTipoArquivo.getCDS;
 end;
 
 procedure TForm1.ConfigInicial;
@@ -465,6 +475,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   ReportMemoryLeaksOnShutdown := True;
   FConfigConexao := TControllerFiredacDao.New.ConfigFirebird.CreateIni;
+  ConfigInicial;
   if (FConfigConexao.getUsuario + FConfigConexao.getSenha).Trim.IsEmpty then begin
     ControlarDisponiblidadeComponentes;
     btnConfigurarConexao.Font.Style := [fsBold];
@@ -472,7 +483,6 @@ begin
     btnConfigurarConexao.Font.Size := 7;
     exit;
   end;
-  ConfigInicial;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);

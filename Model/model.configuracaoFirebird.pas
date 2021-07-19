@@ -28,9 +28,13 @@ uses
 { TConfigFirebird }
 
 function TConfigFirebird.CreateIni: iConfigConexao;
+const
+   ADIR = 'C:\Trocadordedados';
 begin
   Result := Self;
-  FIniFile := TIniFile.Create(Application.ExeName+'.ini');
+  if Not DirectoryExists(ADIR) then
+   ForceDirectories(ADIR);
+  FIniFile := TIniFile.Create('C:\Trocadordedados\Config.ini');
 end;
 
 destructor TConfigFirebird.Destroy;
