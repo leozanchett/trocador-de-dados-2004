@@ -19,7 +19,9 @@ uses
   model.arquivosOutros in 'Model\model.arquivosOutros.pas',
   view.frmConfiguracaoFirebird in 'View\view.frmConfiguracaoFirebird.pas' {frmConfig},
   interfaces.configConexao in 'Interfaces\interfaces.configConexao.pas',
-  model.configuracaoFirebird in 'Model\model.configuracaoFirebird.pas';
+  model.configuracaoFirebird in 'Model\model.configuracaoFirebird.pas',
+  OKCANCL1 in 'c:\program files (x86)\embarcadero\studio\20.0\ObjRepos\EN\DelphiWin32\OKCANCL1.PAS' {OKBottomDlg},
+  view.renomearArquivo in 'View\view.renomearArquivo.pas' {frmRenomarArquivo};
 
 {$R *.res}
 
@@ -27,6 +29,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TForm1, Form1);
-  Application.CreateForm(TfrmConfig, frmConfig);
   Application.Run;
 end.

@@ -18,7 +18,8 @@ type
     public
        procedure CopiaArquivo(const _ADadosCopiar, _ANovoNome: String);
        function ExcluirArquivo: iAcoesArquivos;
-       function RenomearArquivo(const _ADadosRenomear, _ADadosRenomeado: String; const _ADeleteIfExists: boolean): iAcoesArquivos;
+       function RenomearArquivo(const _ADadosRenomear, _ADadosRenomeado: String; const _ADeleteIfExists: boolean): iAcoesArquivos; overload;
+       procedure RenomearArquivo(const _ANovoNome: String); overload;
        function CapturarBytesArquivo(const _ANomeArquivo: String): iAcoesArquivos;
        function TamanhoArquivoBytes: int64;
        class function New: iAcoesArquivos;
@@ -56,13 +57,13 @@ begin
   Azip := TZipFile.Create;
   try
     try
-      ATamanhoString := Length(GetTipoArquivo.getCDS.FieldByName('NOMEARQUIVO').AsString);
-      UltimosCaracteres := copy(GetTipoArquivo.getCDS.FieldByName('NOMEARQUIVO').AsString, ATamanhoString - 3, 4);
+      ATamanhoString := Length(GetTipoArquivo.NomeArquivo);
+      UltimosCaracteres := copy(GetTipoArquivo.NomeArquivo, ATamanhoString - 3, 4);
       if MatchStr(UltimosCaracteres,['.rar','.zip']) then begin
-        Azip.Open(GetTipoArquivo.getCDS.FieldByName('CAMINHOCOMPLETOARQUIVO').AsString, zmReadWrite);
+        Azip.Open(GetTipoArquivo.CaminhoCompletoArquivo, zmReadWrite);
         Azip.ExtractAll(DIRETORIO);
       end else
-        raise Exception.Create(GetTipoArquivo.getCDS.FieldByName('NOMEARQUIVO').AsString + sLineBreak+ 'Não é um arquivo válido para descompactação.');
+        raise Exception.Create(GetTipoArquivo.NomeArquivo + sLineBreak+ 'Não é um arquivo válido para descompactação.');
     except
       on e: Exception do
          raise Exception.Create(e.ToString);
@@ -75,7 +76,7 @@ end;
 function TAcoesArquivos.ExcluirArquivo: iAcoesArquivos;
 begin
   Result := Self;
-  TFile.Delete(GetTipoArquivo.getCDS.FieldByName('CAMINHOCOMPLETOARQUIVO').AsString);
+  TFile.Delete(GetTipoArquivo.CaminhoCompletoArquivo);
 end;
 
 function TAcoesArquivos.GetTipoArquivo: iTipoArquivo;
@@ -132,6 +133,11 @@ begin
   Result.NomeArquivo := _ADadosNome.Replace(DIRETORIO + '\',EmptyStr).Trim;
 end;
 
+procedure TAcoesArquivos.RenomearArquivo(const _ANovoNome: String);
+begin
+  RenameFile(GetTipoArquivo.CaminhoCompletoArquivo, _ANovoNome)
+end;
+
 function TAcoesArquivos.ProcurarFDB(const _ADadosNome: String): TInfoArquivo;
 begin
     Result.Tamanho := ApresentarFormatado(CapturarBytesArquivo(_ADadosNome).TamanhoArquivoBytes);
@@ -165,9 +171,9 @@ var
   ACaminhoArqParaCompactacao: String;
 begin
   result := Self;
-  _AZip.Open(GetTipoArquivo.getCDS.FieldByName('CAMINHOCOMPLETOARQUIVO').AsString+'.rar', zmWrite);
-  ACaminhoArqParaCompactacao := GetTipoArquivo.getCDS.FieldByName('CAMINHOCOMPLETOARQUIVO').AsString.Replace(GetTipoArquivo.getCDS.FieldByName('NOMEARQUIVO').AsString, EmptyStr);
-  _AZip.Add(ACaminhoArqParaCompactacao+GetTipoArquivo.getCDS.FieldByName('NOMEARQUIVO').AsString);
+  _AZip.Open(GetTipoArquivo.CaminhoCompletoArquivo+'.rar', zmWrite);
+  ACaminhoArqParaCompactacao := GetTipoArquivo.CaminhoCompletoArquivo.Replace(GetTipoArquivo.NomeArquivo, EmptyStr);
+  _AZip.Add(ACaminhoArqParaCompactacao+GetTipoArquivo.NomeArquivo);
 end;
 
 function TAcoesArquivos.ApresentarFormatado(const _ASize: int64): String;

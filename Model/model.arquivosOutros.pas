@@ -15,6 +15,8 @@ type
            class function new: iTipoArquivo;
            destructor Destroy; override;
            function ExtensaoArquivo: TTipoProcuraArquivo;
+           function NomeArquivo: String;
+           function CaminhoCompletoArquivo: String;
      end;
 
 implementation
@@ -23,6 +25,11 @@ uses
   Data.DB, System.SysUtils,  interfaces.acoesarquivos;
 
 { TArquivosOutros }
+
+function TArquivosOutros.CaminhoCompletoArquivo: String;
+begin
+  Result := FCDS.FieldByName('CAMINHOCOMPLETOARQUIVO').AsString;
+end;
 
 function TArquivosOutros.CreateCDS: iTipoArquivo;
 begin
@@ -55,6 +62,11 @@ end;
 class function TArquivosOutros.new: iTipoArquivo;
 begin
    Result := Self.Create;
+end;
+
+function TArquivosOutros.NomeArquivo: String;
+begin
+  Result := FCDS.FieldByName('NOMEARQUIVO').AsString
 end;
 
 end.

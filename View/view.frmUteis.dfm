@@ -1914,7 +1914,7 @@ object Form1: TForm1
     Color = clGreen
     FixedColor = clGreen
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
-    ReadOnly = True
+    PopupMenu = PopupMenu1
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -2001,5 +2001,13 @@ object Form1: TForm1
     OnTimer = Timer1Timer
     Left = 688
     Top = 248
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 632
+    Top = 248
+    object Renomear1: TMenuItem
+      Caption = 'Renomear'
+      OnClick = Renomear1Click
+    end
   end
 end

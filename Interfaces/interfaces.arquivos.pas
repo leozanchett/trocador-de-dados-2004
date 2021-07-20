@@ -18,6 +18,8 @@ type
       function ExtensaoArquivo: TTipoProcuraArquivo;
       function CreateCDS: iTipoArquivo;
       function getCDS: TClientDataSet;
+      function NomeArquivo: String;
+      function CaminhoCompletoArquivo: String;
 end;
 
 implementation

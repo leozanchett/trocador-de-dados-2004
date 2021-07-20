@@ -1,0 +1,75 @@
+object frmRenomarArquivo: TfrmRenomarArquivo
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  ClientHeight = 56
+  ClientWidth = 205
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 29
+    Width = 205
+    Height = 27
+    Align = alClient
+    BevelOuter = bvLowered
+    TabOrder = 0
+    ExplicitWidth = 316
+    ExplicitHeight = 41
+    object btnCancelar: TButton
+      Left = 1
+      Top = 1
+      Width = 88
+      Height = 25
+      Margins.Left = 10
+      Align = alLeft
+      Caption = 'Cancelar'
+      TabOrder = 0
+      OnClick = btnCancelarClick
+    end
+    object btnConfirmar: TButton
+      Left = 123
+      Top = 1
+      Width = 81
+      Height = 25
+      Margins.Left = 10
+      Align = alRight
+      Caption = 'Confirmar'
+      TabOrder = 1
+      OnClick = btnConfirmarClick
+      ExplicitLeft = 184
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 0
+    Width = 205
+    Height = 29
+    Align = alTop
+    BevelKind = bkTile
+    BevelOuter = bvSpace
+    TabOrder = 1
+    ExplicitWidth = 316
+    object Edit1: TEdit
+      Left = 1
+      Top = 1
+      Width = 199
+      Height = 23
+      Align = alClient
+      TabOrder = 0
+      Text = 'Edit1'
+      ExplicitTop = -2
+      ExplicitWidth = 310
+      ExplicitHeight = 32
+    end
+  end
+end

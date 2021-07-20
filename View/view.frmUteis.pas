@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.WinXPanels, Data.DB, Vcl.Grids, Vcl.DBGrids, interfaces.acoesarquivos,
   interfaces.firedac, Datasnap.DBClient, interfaces.DAO, Vcl.Imaging.GIFImg, System.Zip,
-  Vcl.Buttons, System.StrUtils, interfaces.arquivos, interfaces.configConexao;
+  Vcl.Buttons, System.StrUtils, interfaces.arquivos, interfaces.configConexao,
+  Vcl.Menus;
 
 type
   TTipoArquivo = (tpFDB, tpOutros);
@@ -33,6 +34,8 @@ type
     btnDescompacatar: TBitBtn;
     btnConfigurarConexao: TButton;
     Timer1: TTimer;
+    PopupMenu1: TPopupMenu;
+    Renomear1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure btnUsarDadosTesteClick(Sender: TObject);
     procedure btnVoltarDadosAnteriorClick(Sender: TObject);
@@ -46,6 +49,7 @@ type
     procedure btnDescompacatarClick(Sender: TObject);
     procedure btnConfigurarConexaoClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure Renomear1Click(Sender: TObject);
   private
     FTipoArquivoFDB: iTipoArquivo;
     FConfigConexao: iConfigConexao;
@@ -81,7 +85,7 @@ uses
   model.consts, controller.acoesarquivos,
   controller.firedac, controller.firedacDAO,
   System.Generics.Collections, System.RegularExpressions, Math,
-  view.frmConfiguracaoFirebird;
+  view.frmConfiguracaoFirebird, view.renomearArquivo;
 
 {$R *.dfm}
 
@@ -381,6 +385,21 @@ begin
       end;
    end;
   EnableDisableBotoes;
+end;
+
+procedure TForm1.Renomear1Click(Sender: TObject);
+var
+  AFormRenomarArquivo : TfrmRenomarArquivo;
+begin
+  AFormRenomarArquivo := TfrmRenomarArquivo.Create(nil);
+  try
+     AFormRenomarArquivo.IArquivo := FInterfaceArquivo;
+     AFormRenomarArquivo.ShowModal;
+     if AFormRenomarArquivo.HouveAlteracao then
+      MontarGrid(true);
+  finally
+    FreeAndNil(AFormRenomarArquivo);
+  end;
 end;
 
 procedure TForm1.rgArquivosClick(Sender: TObject);
